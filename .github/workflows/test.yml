@@ -14,13 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.NOXTTON_BOT_PAT }}
+          token: ${{ secrets.PAT_TOKEN}}
 
       - name: Configure Git credentials
         run: |
-          git config --global --add url."https://${{ secrets.NOXTTON_BOT_PAT }}:x-oauth-basic@github.com/".insteadOf "git+ssh://git@github.com/"
-          git config --global --add url."https://${{ secrets.NOXTTON_BOT_PAT }}:x-oauth-basic@github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://${{ secrets.NOXTTON_BOT_PAT }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git config --global --add url."https://${{ secrets.PAT_TOKEN}}:x-oauth-basic@github.com/".insteadOf "git+ssh://git@github.com/"
+          git config --global --add url."https://${{ secrets.PAT_TOKEN}}:x-oauth-basic@github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://${{ secrets.PAT_TOKEN}}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -34,7 +34,7 @@ jobs:
           PEER_DEPS=$(node -pe "Object.keys(require('./package.json').peerDependencies || {}).filter(dep => dep.startsWith('pear-')).join(' ')")
           for dep in $PEER_DEPS; do
             echo "Checking out $dep..."
-            git clone https://${{ secrets.NOXTTON_BOT_PAT }}@github.com/noxtton/$dep.git $dep
+            git clone https://${{ secrets.PAT_TOKEN}}@github.com/noxtton/$dep.git $dep
           done
 
       - name: Install dependencies and peer dependencies
@@ -52,7 +52,7 @@ jobs:
             fi
           done
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NOXTTON_BOT_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN}}
 
       - name: Run tests
         run: npm test
